@@ -1,0 +1,17 @@
+# DHMPT script-uploader 2021
+# 
+#
+
+export BOT_MSG_URL="https://api.telegram.org/bot"$BOT_API"/sendMessage"
+
+tg_post_msg() {
+ curl -s -X POST "$BOT_MSG_URL" -d chat_id="$CHATID" \
+ -d "parse_mode=html" \
+ -d text="$1"
+}
+
+up(){
+	curl --upload-file $1 https://transfer.sh/$(basename $1); echo
+}
+
+send_zip=$(up out/target/product/"$CODENAME"/*zip) && tg_post_msg "<b>$send_zip</b>" "$CHATID"
